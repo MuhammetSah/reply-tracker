@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+    {% if not dashboard %}
+<p>No contacts added. <a href="/add">Add one</a>!</p>
+    {% else %}
+        {% for contact in dashboard %}
+<div class="contact-card {% if contact.overdue %}is-overdue{% else %}is-ok{% endif %}">
+    <div>
+        <div class="contact-name">{{ contact.name }}</div>
+        <div class="contact-hours">{{ contact.hours_since }} hours since last contact</div>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        {% if contact.overdue %}
+        <span class="badge bg-danger">Overdue</span>
+        {% else %}
+        <span class="badge bg-success">On Track</span>
+        {% endif %}
+        <form action="/update/{{ contact.id }}" method="post" class="d-inline">
+            <input type="hidden" name="direction" value="from_them">
+            <button class="btn btn-sm btn-secondary" type="submit">They messaged me</button>
+        </form>
+        <form action="/update/{{ contact.id }}" method="post" class="d-inline">
+            <input type="hidden" name="direction" value="from_me">
+            <button class="btn btn-sm btn-primary" type="submit">I replied</button>
+        </form>
+        <form action="/delete_contact/{{ contact.id }}" method="post" class="d-inline" onsubmit="return confirm('Delete {{ contact.name }}?');">
+            <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+        {% endfor %}
+    {% endif %}
+
+<a href="/add" class="btn btn-primary mt-4">+ Add a contact</a>
+
+<hr class="mt-5">
+<form action="/delete_account" method="post" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
+    <button class="btn btn-sm btn-outline-danger" type="submit">Delete Account</button>
+</form>
+{% endblock %}
