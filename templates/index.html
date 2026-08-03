@@ -14,7 +14,7 @@
         <div class="contact-name">{{ contact.name }}</div>
         <div class="contact-hours">{{ contact.hours_since }} hours since last contact</div>
     </div>
-    <div class="d-flex align-items-center gap-3">
+    <div class="contact-actions">
         {% if contact.overdue %}
         <span class="badge bg-danger">Overdue</span>
         {% else %}

@@ -1,48 +1,98 @@
 :root {
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
+    --bg: #f5f6fa;
+    --card-bg: #ffffff;
+    --border: rgba(20, 20, 30, 0.09);
+    --text: #15151a;
+    --text-muted: #6b6b78;
+    --accent: #0d9488;
+    --accent-soft: #5eead4;
+    --accent-hover: #0f766e;
     --danger: #dc2626;
     --success: #16a34a;
-    --bg: #f4f5f7;
-    --card-bg: #ffffff;
-    --text: #1f2937;
-    --text-muted: #6b7280;
+    --shadow: 0 20px 40px -24px rgba(20, 20, 30, 0.16);
 }
 
 body {
     background-color: var(--bg);
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
     color: var(--text);
 }
 
+.glow-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(600px circle at 12% 15%, rgba(124, 58, 237, 0.08), transparent 60%),
+        radial-gradient(500px circle at 88% 25%, rgba(56, 132, 255, 0.07), transparent 60%),
+        radial-gradient(700px circle at 50% 95%, rgba(94, 234, 212, 0.12), transparent 60%);
+}
+
 .navbar {
-    background-color: var(--card-bg) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border) !important;
+    box-shadow: var(--shadow);
+    max-width: 900px;
+    margin: 1.5rem auto;
+    border-radius: 16px;
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        border-radius: 999px;
+    }
 }
 
 .navbar-brand {
     font-weight: 700;
-    color: var(--primary) !important;
+    color: var(--text) !important;
     letter-spacing: -0.02em;
 }
 
 .nav-link {
     font-weight: 500;
     color: var(--text-muted) !important;
+    border-radius: 999px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
     .nav-link:hover {
-        color: var(--primary) !important;
+        color: var(--text) !important;
+        background-color: rgba(13, 148, 136, 0.1);
     }
 
+.alert-primary {
+    background-color: rgba(13, 148, 136, 0.08);
+    border-color: rgba(13, 148, 136, 0.35);
+    color: var(--accent-hover);
+    border-radius: 12px;
+}
+
+.form-control {
+    border-radius: 10px;
+    border-color: var(--border);
+}
+
+    .form-control:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 0.2rem rgba(13, 148, 136, 0.15);
+    }
+
+.btn {
+    border-radius: 999px;
+    font-weight: 600;
+}
+
 .btn-primary {
-    background-color: var(--primary);
-    border-color: var(--primary);
+    background-color: var(--accent);
+    border-color: var(--accent);
 }
 
     .btn-primary:hover {
-        background-color: var(--primary-dark);
-        border-color: var(--primary-dark);
+        background-color: var(--accent-hover);
+        border-color: var(--accent-hover);
     }
 
 .btn-danger {
@@ -53,18 +103,22 @@ body {
 /* Contact cards instead of plain table rows */
 .contact-card {
     background-color: var(--card-bg);
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
     padding: 1rem 1.5rem;
     margin-bottom: 0.75rem;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-    transition: box-shadow 0.15s ease;
+    gap: 0.75rem;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
     .contact-card:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 24px 48px -20px rgba(20, 20, 30, 0.22);
+        transform: translateY(-1px);
     }
 
     .contact-card.is-overdue {
@@ -83,6 +137,25 @@ body {
 .contact-hours {
     color: var(--text-muted);
     font-size: 0.9rem;
+}
+
+.contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    .contact-card {
+        padding: 1rem;
+    }
+
+    .contact-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
 }
 
 .badge {
