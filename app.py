@@ -18,8 +18,8 @@ db = SQL("sqlite:///reply_tracker.db")
 def login():
     """Log user in"""
 
-    # Forget any user_id
-    session.clear()
+    # Forget any user_id (without wiping flashed messages, e.g. from /register)
+    session.pop("user_id", None)
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -91,7 +91,8 @@ def register():
             db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, password)
         except ValueError:
             return apology("Already registered!", 400)
-        return render_template("login.html")
+        flash("Registered! Please log in.")
+        return redirect("/login")
 
         # Showing the Registration Form
     else:
@@ -102,7 +103,7 @@ def register():
 def add():
     """Add a new contact"""
     if request.method == "POST":
-        name = request.form.get("name")
+        name = request.form.get("name", "").strip()
 
         # Validating the name
         if not name:
